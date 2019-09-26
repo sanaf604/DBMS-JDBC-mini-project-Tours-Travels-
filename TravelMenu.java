@@ -91,7 +91,8 @@ default: System.out.println("\tIncorrect input!!! Please re-enter choice from ou
 			System.out.println("1.FLIGHT.");
 			System.out.println("2.TRAIN.");
 			System.out.println("3.BUS.");
-			System.out.println("4.EXIT.");
+			System.out.println("4.HOTEL.");
+			System.out.println("5.EXIT.");
 			int op = sc.nextInt();
 			switch(op)
 			{
@@ -188,76 +189,251 @@ default: System.out.println("\tIncorrect input!!! Please re-enter choice from ou
 					myStmt = myConn.createStatement();
 					
 					myRs = myStmt.executeQuery("select * from flight");
-					while (myRs.next()) {
+					while (myRs.next()) 
+					{
 					System.out.println(myRs.getString("departure_airport") + "\t" + myRs.getInt("economy_price"));
-				}
+					}
 				}
 				
 				break;
 			case 2: 
 				
-				//String query="insert into train values(NULL,?,?,?,?,?,?,?,?)";
 				
-				
-				System.out.println("Train ID :: ");
-				int tid=sc.nextInt();
-				System.out.println("Departure Station :: ");
-				String train_departure_station=sc.next();
-				System.out.println("Departure Time :: ");
-				int train_departure_time = sc.nextInt();
-				System.out.println("Arrival Station :: ");
-				String train_arrival_airport = sc.next();
-				System.out.println("Arrival Time :: ");
-				int train_arrival_time = sc.nextInt();
-				System.out.println("2-Tier Price :: ");
-				int train_2tier_price = sc.nextInt();
-				System.out.println("3-Tier Price :: ");
-				int train_3tier_price = sc.nextInt();
-				System.out.println("Coach Type(2-Tier/3-Tier) :: ");
-				String train_coach = sc.next();
-				System.out.println("Seat Type(window/isle) :: ");
-				String train_seat = sc.next();
-				
-				//stmt = myConn.prepareStatement(query);
-				
-				//stmt.setString(1,train_departure_station);
-				//stmt.setString(2,train_departure_time);
-				//stmt.setString(3,train_arrival_airport);
-				//stmt.setString(4,train_arrival_time);
-				//stmt.setInt(5,train_2tier_price);
-				//stmt.setInt(6,train_3tier_price);
-				//stmt.setString(7,train_coach);
-				//stmt.setString(8,train_seat );
+				System.out.println("1.Insert ");
+				System.out.println("2. Update ");
+				System.out.println("3. Delete");
+				System.out.println("4. Show records ");
+				System.out.println("Enter your choice::");
+				int tinput=sc.nextInt();
+				if(tinput==1) //Insert new data
+				{
+					String query="insert into train values(NULL,?,?,?,?,?,?,?,?,?)";
+					
+					
+					
+					System.out.println("Train Name ::");
+					String train_name=sc.next();
+					System.out.println("Departure Station :: ");
+					String train_departure_station=sc.next();
+					System.out.println("Departure Time :: ");
+					String train_departure_time = sc.next();
+					System.out.println("Arrival Station :: ");
+					String train_arrival_station = sc.next();
+					System.out.println("Arrival Time :: ");
+					String train_arrival_time = sc.next();
+					System.out.println("2-Tier Price :: ");
+					int train_2tier_price = sc.nextInt();
+					System.out.println("3-Tier Price :: ");
+					int train_3tier_price = sc.nextInt();
+					System.out.println("Coach Type(2-Tier/3-Tier) :: ");
+					String train_coach = sc.next();
+					System.out.println("Seat Type(window/isle) :: ");
+					String train_seat = sc.next();
+					
+					stmt = myConn.prepareStatement(query);
+					stmt.setString(1,train_name);
+					stmt.setString(2,train_departure_station);
+					stmt.setString(3,train_departure_time);
+					stmt.setString(4,train_arrival_station);
+					stmt.setString(5,train_arrival_time);
+					stmt.setInt(6,train_2tier_price);
+					stmt.setInt(7,train_3tier_price);
+					stmt.setString(8,train_coach);
+					stmt.setString(9,train_seat );
 
+					
+					int a= stmt.executeUpdate();
+					System.out.println("No. of rows affected:" + a);
+					System.out.println("DATA INSERTED SUCCESSFULLY!!!");	
+				}
 				
-				//int a= stmt.executeUpdate();
-				//System.out.println("No. of rows affected:" + a);
+				if(tinput==2)//update
+				{
+					System.out.println("enter train id :");
+					int train_id=sc.nextInt();
+					System.out.println("enter updated departure time :");
+					String tdeparture_time =sc.next();
+					System.out.println("enter updated arrival time :");
+					String tarrival_time =sc.next();
+					String query="update train set  train_departure_time =? , train_arrival_time =? where train_id = ?";
+					
+					stmt = myConn.prepareStatement(query);
+					stmt.setInt(3,train_id);
+					stmt.setString(1,tdeparture_time);
+					stmt.setString(2,tarrival_time);
+					
+					int a= stmt.executeUpdate();
+					System.out.println("No. of rows affected:" + a);
+					System.out.println("DATA UPDATED SUCCESSFULLY!!!");
+				}
+					
 				
-				System.out.println("THNAK YOU");
+				if(tinput==3)//Delete
+				{
+					System.out.println("enter train id :");
+					int train_id=sc.nextInt();
+					
+					String query="delete from train where train_id = ?";
+					
+					stmt = myConn.prepareStatement(query);
+					stmt.setInt(1,train_id);
+					
+					
+					int a= stmt.executeUpdate();
+					System.out.println("No. of rows affected:" + a);
+					System.out.println("DATA DELETED SUCCESSFULLY!!!");
+							
+				}
+
+				if(tinput==4)//show records
+				{
 				
+					myStmt = myConn.createStatement();
+					myRs = myStmt.executeQuery("select * from train");
+					
+					while (myRs.next()) 
+					{
+					System.out.println(myRs.getString("train_departure_station") + "\t" + myRs.getString("train_name"));
+					}
+				}
 				break;
+				
+				
+				
+				
 			case 3:
-				System.out.println("Bus ID :: ");
-				int bid=sc.nextInt();
-				System.out.println("Departure Bus Stop :: ");
-				String bus_departure_stop=sc.next();
-				System.out.println("Departure Time :: ");
-				int bus_departure_time = sc.nextInt();
-				System.out.println("Arrival Bus Stop :: ");
-				String bus_arrival_stop = sc.next();
-				System.out.println("Arrival Time :: ");
-				int bus_arrival_time = sc.nextInt();
-				System.out.println("AC Price :: ");
-				int bus_ac_price = sc.nextInt();
-				System.out.println("Normal Price :: ");
-				int bus_normal_price = sc.nextInt();
-				System.out.println("Type(AC/Normal) :: ");
-				String bus_type = sc.next();
-				System.out.println("Seat Type(window/isle) :: ");
-				String bus_seat = sc.next();
-				System.out.println("THNAK YOU");
+				
+				System.out.println("1.Insert ");
+				System.out.println("2. Update ");
+				System.out.println("3. Delete");
+				System.out.println("4. Show records ");
+				System.out.println("Enter your choice::");
+				int binput=sc.nextInt();
+				if(binput==1) //Insert new data
+				{
+					
+					String query="insert into bus values(NULL,?,?,?,?,?,?,?,?,?)";
+					
+				
+					System.out.println("Bus Name ::");
+					String bus_name=sc.next();
+					System.out.println("Departure Bus Stop :: ");
+					String bus_departure_stop=sc.next();
+					System.out.println("Departure Time :: ");
+					String bus_departure_time = sc.next();
+					System.out.println("Arrival Bus Stop :: ");
+					String bus_arrival_stop = sc.next();
+					System.out.println("Arrival Time :: ");
+					String bus_arrival_time = sc.next();
+					System.out.println("AC Price :: ");
+					int bus_ac_price = sc.nextInt();
+					System.out.println("Normal Price :: ");
+					int bus_normal_price = sc.nextInt();
+					System.out.println("Type(AC/Normal) :: ");
+					String bus_type = sc.next();
+					System.out.println("Seat Type(window/isle) :: ");
+					String bus_seat = sc.next();
+					
+					
+					stmt = myConn.prepareStatement(query);
+					stmt.setString(1,bus_name);
+					stmt.setString(2,bus_departure_stop);
+					stmt.setString(3,bus_departure_time);
+					stmt.setString(4,bus_arrival_stop);
+					stmt.setString(5,bus_arrival_time);
+					stmt.setInt(6,bus_ac_price);
+					stmt.setInt(7,bus_normal_price);
+					stmt.setString(8,bus_type);
+					stmt.setString(9,bus_seat );
+
+					
+					int a= stmt.executeUpdate();
+					System.out.println("No. of rows affected:" + a);
+					System.out.println("DATA INSERTED SUCCESSFULLY!!!");	
+					
+				}
+				
+				if(binput==2)//update
+				{
+					System.out.println("enter bus id :");
+					int bus_id=sc.nextInt();
+					System.out.println("enter updated departure time :");
+					String bus_departure_time =sc.next();
+					System.out.println("enter updated arrival time :");
+					String bus_arrival_time =sc.next();
+					String query="update bus set  bus_departure_time =? , bus_arrival_time =? where bus_id = ?";
+					
+					stmt = myConn.prepareStatement(query);
+					stmt.setInt(3,bus_id);
+					stmt.setString(1,bus_departure_time);
+					stmt.setString(2,bus_arrival_time);
+					
+					int a= stmt.executeUpdate();
+					System.out.println("No. of rows affected:" + a);
+					System.out.println("DATA UPDATED SUCCESSFULLY!!!");
+					
+				}
+					
+				
+				if(binput==3)//Delete
+				{
+					System.out.println("enter bus id :");
+					int bus_id=sc.nextInt();
+					
+					String query="delete from bus where bus_id = ?";
+					
+					stmt = myConn.prepareStatement(query);
+					stmt.setInt(1,bus_id);
+					
+					
+					int a= stmt.executeUpdate();
+					System.out.println("No. of rows affected:" + a);
+					System.out.println("DATA DELETED SUCCESSFULLY!!!");
+							
+				}
+
+				if(binput==4)//show records
+				{
+					myStmt = myConn.createStatement();
+					myRs = myStmt.executeQuery("select * from bus");
+					
+					while (myRs.next()) 
+					{
+					System.out.println(myRs.getString("bus_departure_stop") + "\t" + myRs.getString("bus_name"));
+					}
+				}
 				break;
+				
 			case 4:
+				System.out.println("1.Insert ");
+				System.out.println("2. Update ");
+				System.out.println("3. Delete");
+				System.out.println("4. Show records ");
+				System.out.println("Enter your choice::");
+				int hinput=sc.nextInt();
+				if(hinput==1) //Insert new data
+				{
+					
+				}
+				
+				if(hinput==2)//update
+				{
+					
+				}
+					
+				
+				if(hinput==3)//Delete
+				{
+					
+				}
+
+				if(hinput==4)//show records
+				{
+					
+				}
+				break;
+	
+			case 5:
 				System.out.println("THANKS ADMIN!!!!");
 				 System.exit(0);
 				default:
